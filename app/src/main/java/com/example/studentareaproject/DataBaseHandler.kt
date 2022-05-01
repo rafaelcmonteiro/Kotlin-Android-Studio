@@ -33,7 +33,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         cv.put(COL_NAME, user.username)
         cv.put(COL_PASS, user.password)
         var result = db.insert(TABLE_NAME, null,cv)
-        if(result == -1.toLong())
+        if(result == (-1).toLong())
             Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
         else
             Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
