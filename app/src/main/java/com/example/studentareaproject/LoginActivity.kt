@@ -29,6 +29,8 @@ class LoginActivity : AppCompatActivity() {
                             "You are login!!! $returnedValues",
                             Toast.LENGTH_SHORT
                         ).show()
+                        val intent = Intent(this, ScheduleActivity::class.java)
+                        startActivity(intent)
                         break
                     } else {
                         Toast.makeText(context, "Wrong credentials", Toast.LENGTH_SHORT).show()
