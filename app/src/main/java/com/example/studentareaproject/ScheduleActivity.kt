@@ -12,17 +12,22 @@ class ScheduleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_student_schedule)
-        val context = this
-        var db = DataBaseHandler(context)
-        Toast.makeText(
-                this@ScheduleActivity,
-                "Olá!!!",
-                Toast.LENGTH_SHORT
-            ).show()
-        var data = db.readData()
-        tvResult.text =""
-        for (i in 0..data.size-1){
-            tvResult.append(data[i].id.toString() + " " + data[i].username)
+
+        maps.setOnClickListener{
+            val intent = Intent(this, MapsActivity::class.java)
+            startActivity(intent)
         }
+//        val context = this
+//        var db = DataBaseHandler(context)
+//        Toast.makeText(
+//                this@ScheduleActivity,
+//                "Olá!!!",
+//                Toast.LENGTH_SHORT
+//            ).show()
+//        var data = db.readData()
+//        tvResult.text =""
+//        for (i in 0..data.size-1){
+//            tvResult.append(data[i].id.toString() + " " + data[i].username)
+//        }
     }
 }
