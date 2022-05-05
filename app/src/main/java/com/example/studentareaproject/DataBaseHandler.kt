@@ -8,25 +8,54 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
 
 val DATABASE_NAME = "MyBD"
-val TABLE_NAME = "Users"
+val TABLE_NAME = "users"
 val COL_NAME = "username"
 val COL_PASS = "password"
-val COL_ID = "id"
+val COL_ID = "student_id"
 
-class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1){
+val COL_ID_P = "id"
+val COL_DISCIPLINE = "discipline"
+val COL_CLASS_DAY = "class_day"
+val COL_START_AT = "start_at"
+val COL_END_AT = "end_at"
+val COL_STUDENT_ID = "student_id"
+val TABLE_NAME_SCHEDULE = "student_schedule"
+
+class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 3){
     override fun onCreate(db: SQLiteDatabase?) {
-        // val dropTable = "DELETE from $TABLE_NAME";
-        val createTable = "CREATE TABLE " + TABLE_NAME +" (" +
+        val createUsersTable = "CREATE TABLE " + TABLE_NAME +" (" +
                 COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT," +
                 COL_NAME +" VARCHAR(256)," +
                 COL_PASS +" VARCHAR(256))";
-        // db?.execSQL(dropTable)
-        db?.execSQL(createTable)
+        db?.execSQL(createUsersTable)
+
+        val createStudentTable = "CREATE TABLE " + TABLE_NAME_SCHEDULE +" (" +
+                COL_ID_P + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COL_DISCIPLINE + " varchar(255)," +
+                COL_CLASS_DAY + " varchar(255)," +
+                COL_START_AT + " varchar(255)," +
+                COL_END_AT + " varchar(255)," +
+                COL_STUDENT_ID + " int)";
+        db!!.execSQL(createStudentTable)
+
+        val insertUser = "INSERT INTO users VALUES (1,\"admin\", \"admin\");"
+        db?.execSQL(insertUser)
+
+        val insertStudent_1 = "INSERT INTO student_schedule VALUES (1, \"Programação para dispositivos moveis\", \"quarta\", \"19:10:00\", \"22:00:00\", 1);"
+        val insertStudent_2 = "INSERT INTO student_schedule VALUES (2, \"Linguagens formais e automatos\", \"sexta\", \"19:10:00\", \"22:00:00\", 1);"
+        val insertStudent_3 = "INSERT INTO student_schedule VALUES (3, \"Trabalho de graduacao interdisciplinar i\", \"segunda\", \"19:10:00\", \"20:20:00\", 1);"
+        val insertStudent_4 = "INSERT INTO student_schedule VALUES (4, \"Fundamentos de inteligência artificial\", \"quinta\", \"19:10:00\", \"22:00:00\", 1);"
+        db?.execSQL(insertStudent_1)
+        db?.execSQL(insertStudent_2)
+        db?.execSQL(insertStudent_3)
+        db?.execSQL(insertStudent_4)
+
     }
 
-
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
-        TODO("Not yet implemented")
+        db?.execSQL("DROP TABLE IF EXISTS $TABLE_NAME");
+        db?.execSQL("DROP TABLE IF EXISTS $TABLE_NAME_SCHEDULE");
+        onCreate(db);
     }
 
     fun insertData(user : User){
@@ -45,7 +74,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         var list : MutableList<User> = ArrayList()
 
         val db = this.readableDatabase
-        val query = "select * from " + TABLE_NAME
+        val query = "select * from $TABLE_NAME"
         val result = db.rawQuery(query, null)
         if(result.moveToFirst()){
             do {
@@ -54,6 +83,29 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
                 user.username = result.getString(1).toString()
                 user.password = result.getString(2).toString()
                 list.add(user)
+            }while (result.moveToNext())
+        }
+        result.close()
+        db.close()
+        return list
+    }
+
+    fun getSchedule() : MutableList<Schedule>{
+        var list : MutableList<Schedule> = ArrayList()
+
+        val db = this.readableDatabase
+        val query = "SELECT * FROM student_schedule INNER JOIN users ON student_schedule.student_id = users.student_id where student_schedule.student_id = 1;"
+        val result = db.rawQuery(query, null)
+        if(result.moveToFirst()){
+            do {
+                var schedule = Schedule()
+                schedule.id = result.getString(0).toInt()
+                schedule.discipline = result.getString(1).toString()
+                schedule.class_day = result.getString(2).toString()
+                schedule.start_at = result.getString(3).toString()
+                schedule.end_at = result.getString(4).toString()
+                schedule.student_id = result.getString(5).toInt()
+                list.add(schedule)
             }while (result.moveToNext())
         }
         result.close()
