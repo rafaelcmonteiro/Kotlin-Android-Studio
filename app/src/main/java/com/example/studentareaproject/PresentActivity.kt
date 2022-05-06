@@ -16,13 +16,12 @@ class PresentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_present)
 
-        val locationComparison = loadData("sameLocation")
-        val localization = loadData("localization")
-
-        Toast.makeText(this, "$localization", Toast.LENGTH_SHORT).show()
+        val locationComparison = loadDataBoolean("sameLocation")
+        val localization = loadDataString("localization")
 
         val week = Calendar.getInstance(TimeZone.getTimeZone("GMT-3")).get(Calendar.DAY_OF_WEEK)
-
+        val isPM = Calendar.getInstance(TimeZone.getTimeZone("GMT-3")).get(Calendar.PM)
+        Toast.makeText(this, "$isPM", Toast.LENGTH_SHORT).show()
         val context = this
         val db = DataBaseHandler(context)
         val data = db.getSchedule(week)
@@ -30,7 +29,7 @@ class PresentActivity : AppCompatActivity() {
 
         for (i in 0 until data.size){
             // o primeiro if é se a localização estiver correta.
-            if (isPresent && (locationComparison).toBoolean()) {
+            if (isPresent && locationComparison) {
                 tvText.append(
                             "Descrição:" + " Você esta em horário de aula" + "\n" +
                             "Aula: " + data[i].discipline + "\n" +
@@ -41,7 +40,7 @@ class PresentActivity : AppCompatActivity() {
                 )
                 break
                 // o segundo para caso a aula esteja correndo porém a localização não bete.
-            }else if(isPresent && !(locationComparison).toBoolean()){
+            }else if(isPresent && !locationComparison){
                 tvText.append(
                     "Descrição:" + " Você esta em horário de aula" + "\n" +
                             "Aula: " + data[i].discipline + "\n" +
@@ -106,9 +105,14 @@ class PresentActivity : AppCompatActivity() {
         return LocalTime.of(timeIntHour, timeIntMin, timeIntSec)
     }
 
-    private fun loadData(whichData : String): String {
+    private fun loadDataBoolean(whichData : String): Boolean {
         val sharedPreferences: SharedPreferences =
             getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
-        return (sharedPreferences.getBoolean(whichData, true)).toString()
+        return sharedPreferences.getBoolean(whichData, true)
+    }
+    private fun loadDataString(whichData : String): String? {
+        val sharedPreferences: SharedPreferences =
+            getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getString(whichData, "")
     }
 }

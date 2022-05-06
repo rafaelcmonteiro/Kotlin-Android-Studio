@@ -21,7 +21,7 @@ val COL_END_AT = "end_at"
 val COL_STUDENT_ID = "student_id"
 val TABLE_NAME_SCHEDULE = "student_schedule"
 
-class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 6){
+class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 8){
     override fun onCreate(db: SQLiteDatabase?) {
         val createUsersTable = "CREATE TABLE " + TABLE_NAME +" (" +
                 COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -41,10 +41,10 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         val insertUser = "INSERT INTO users VALUES (1,\"admin\", \"admin\");"
         db?.execSQL(insertUser)
 
-        val insertSchedule_1 = "INSERT INTO student_schedule VALUES (1, \"Programação para dispositivos moveis\", \"4\", \"19:10:00\", \"22:00:00\", 1);"
-        val insertSchedule_2 = "INSERT INTO student_schedule VALUES (2, \"Linguagens formais e automatos\", \"6\", \"19:10:00\", \"22:00:00\", 1);"
-        val insertSchedule_3 = "INSERT INTO student_schedule VALUES (3, \"Trabalho de graduacao interdisciplinar i\", \"2\", \"19:10:00\", \"20:20:00\", 1);"
-        val insertSchedule_4 = "INSERT INTO student_schedule VALUES (4, \"Fundamentos de inteligência artificial\", \"5\", \"19:10:00\", \"22:00:00\", 1);"
+        val insertSchedule_1 = "INSERT INTO student_schedule VALUES (1, \"Programação para dispositivos moveis\", \"4\", \"07:10:00\", \"10:00:00\", 1);"
+        val insertSchedule_2 = "INSERT INTO student_schedule VALUES (2, \"Linguagens formais e automatos\", \"6\", \"07:10:00\", \"10:00:00\", 1);"
+        val insertSchedule_3 = "INSERT INTO student_schedule VALUES (3, \"Trabalho de graduacao interdisciplinar i\", \"2\", \"07:10:00\", \"08:20:00\", 1);"
+        val insertSchedule_4 = "INSERT INTO student_schedule VALUES (4, \"Fundamentos de inteligência artificial\", \"5\", \"07:10:00\", \"10:00:00\", 1);"
         db?.execSQL(insertSchedule_1)
         db?.execSQL(insertSchedule_2)
         db?.execSQL(insertSchedule_3)
