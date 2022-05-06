@@ -3,7 +3,9 @@ package com.example.studentareaproject
 import android.Manifest
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.icu.util.*
 import android.location.Location
@@ -12,6 +14,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.PermissionChecker
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import com.example.studentareaproject.databinding.ActivityMapsBinding
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -49,6 +52,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        val fullLocation = getLastLocation()
     }
 
     fun imPresent(view: View){
@@ -89,6 +93,38 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 12f))
             }
         }
+    }
+
+    private fun getLastLocation(): Boolean {
+        var locationLatitude : Double = 0.0
+        var locationLongitude : Double = 0.0
+        var booleanLatitudeLongitude : Boolean = true
+
+        val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            == PermissionChecker.PERMISSION_GRANTED ||
+            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+            == PermissionChecker.PERMISSION_GRANTED
+        ) {
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener(
+                    this
+                ) { location ->
+                    locationLatitude = (location.latitude)
+                    locationLongitude = (location.longitude)
+                    val latitudeLongitude = LatLng(locationLatitude, locationLongitude)
+                    val locationTrue =
+                        LatLng(-23.536286105990403, -46.560337171952156) == latitudeLongitude
+                    booleanLatitudeLongitude = locationTrue
+                    // Adding location comparison to shared preferences
+                    val sharedPreferences : SharedPreferences = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
+                    val editor : SharedPreferences.Editor = sharedPreferences.edit()
+                    editor.apply{
+                        putBoolean("sameLocation", booleanLatitudeLongitude)
+                    }.apply()
+                }
+        }
+        return booleanLatitudeLongitude
     }
 
     private fun placeMarkerOnMap(currentLatLong: LatLng) {

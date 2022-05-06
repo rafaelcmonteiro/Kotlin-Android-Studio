@@ -21,10 +21,6 @@ val COL_END_AT = "end_at"
 val COL_STUDENT_ID = "student_id"
 val TABLE_NAME_SCHEDULE = "student_schedule"
 
-val COL_IS_PRESENT = "is_present"
-val TABLE_NAME_PRESENT = "student_present"
-
-
 class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 6){
     override fun onCreate(db: SQLiteDatabase?) {
         val createUsersTable = "CREATE TABLE " + TABLE_NAME +" (" +
@@ -41,13 +37,6 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
                 COL_END_AT + " varchar(255)," +
                 COL_STUDENT_ID + " int)";
         db!!.execSQL(createStudentTable)
-
-        val createStudentPresent = "CREATE TABLE " + TABLE_NAME_PRESENT +" (" +
-            COL_ID_P + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-            COL_DISCIPLINE + " varchar(255)," +
-            COL_CLASS_DAY + " varchar(255)," +
-            COL_IS_PRESENT + " bool)";
-        db!!.execSQL(createStudentPresent)
 
         val insertUser = "INSERT INTO users VALUES (1,\"admin\", \"admin\");"
         db?.execSQL(insertUser)

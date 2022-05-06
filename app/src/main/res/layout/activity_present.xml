@@ -35,4 +35,11 @@
         android:onClick="logOut"
         android:text="Sair do App"
         android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/tvTxt"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </TextView>
 </LinearLayout>
