@@ -5,33 +5,38 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.password
+import kotlinx.android.synthetic.main.activity_main.signin
+import kotlinx.android.synthetic.main.activity_main.username
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         val context = this
         var db = DataBaseHandler(context)
-        signup.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            if (username.text.toString().isNotEmpty() &&
-                password.text.toString().isNotEmpty() &&
-                repassword.text.toString() == password.text.toString()
-            ) {
-                var user = User((username.text.toString()), password.text.toString())
-                db.insertData(user)
-                startActivity(intent)
-            } else if (password.text.toString() != repassword.text.toString()) {
-                Toast.makeText(context, "Passwords doesn't match", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context, "Please Fill All Data's", Toast.LENGTH_SHORT).show()
-            }
-        }
 
-        signin.setOnClickListener{
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+        signin.setOnClickListener {
+            var data = db.readData()
+            for (i in 0 until data.size) {
+                if (username.text.toString() == data[i].username.toString()) {
+                    val returnedValues = data[i].username.toString()
+                    if (username.text.toString() == data[i].username.toString() &&
+                        password.text.toString() == data[i].password.toString()
+                    ) {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "You are login!!! $returnedValues",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        val intent = Intent(this, ScheduleActivity::class.java)
+                        startActivity(intent)
+                        break
+                    } else {
+                        Toast.makeText(context, "Wrong credentials", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
     }
 }

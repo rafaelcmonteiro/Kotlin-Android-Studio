@@ -48,36 +48,12 @@
         android:textColorHint="@color/black"
         android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/repassword"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="30dp"
-        android:autofillHints="repassword"
-        android:background="@drawable/edittextbackground"
-        android:hint="Confirm Password"
-        android:inputType="text"
-        android:paddingStart="20dp"
-        android:paddingEnd="40dp"
-        android:textColorHint="@color/black"
-        android:textSize="20sp" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/signup"
-        android:text="register"
-        android:textSize="20dp"
-        android:backgroundTint="@color/black"
-        android:layout_marginBottom="30dp"
-        />
-
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/signin"
-        android:text="Already Have An Account"
-        android:textSize="20sp"
+        android:text="Sign in"
+        android:textSize="20dp"
         android:backgroundTint="@color/black"
         android:layout_marginBottom="30dp"
         />

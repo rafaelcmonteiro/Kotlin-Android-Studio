@@ -21,7 +21,11 @@ val COL_END_AT = "end_at"
 val COL_STUDENT_ID = "student_id"
 val TABLE_NAME_SCHEDULE = "student_schedule"
 
-class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 5){
+val COL_IS_PRESENT = "is_present"
+val TABLE_NAME_PRESENT = "student_present"
+
+
+class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 6){
     override fun onCreate(db: SQLiteDatabase?) {
         val createUsersTable = "CREATE TABLE " + TABLE_NAME +" (" +
                 COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -37,6 +41,13 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
                 COL_END_AT + " varchar(255)," +
                 COL_STUDENT_ID + " int)";
         db!!.execSQL(createStudentTable)
+
+        val createStudentPresent = "CREATE TABLE " + TABLE_NAME_PRESENT +" (" +
+            COL_ID_P + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            COL_DISCIPLINE + " varchar(255)," +
+            COL_CLASS_DAY + " varchar(255)," +
+            COL_IS_PRESENT + " bool)";
+        db!!.execSQL(createStudentPresent)
 
         val insertUser = "INSERT INTO users VALUES (1,\"admin\", \"admin\");"
         db?.execSQL(insertUser)
@@ -90,21 +101,27 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         return list
     }
 
-    fun getSchedule(class_day : Int) : Schedule{
-        var schedule = Schedule()
+    fun getSchedule(class_day : Int) : MutableList<Schedule>{
+        var list : MutableList<Schedule> = ArrayList()
 
         val db = this.readableDatabase
-        val query = "SELECT * FROM student_schedule INNER JOIN users ON student_schedule.student_id = users.student_id where student_schedule.student_id = 1 and class_day = 5;"
+        val query = "SELECT * FROM student_schedule INNER JOIN users ON student_schedule.student_id = users.student_id where student_schedule.student_id = 1 and class_day = $class_day;"
         val result = db.rawQuery(query, null)
-        schedule.id = result.getString(0).toInt()
-        schedule.discipline = result.getString(1).toString()
-        schedule.end_at = result.getString(4).toString()
-        schedule.start_at = result.getString(3).toString()
-        schedule.class_day = result.getString(2).toString()
-        schedule.student_id = result.getString(5).toInt()
+        if(result.moveToFirst()){
+            do {
+                var schedule = Schedule()
+                schedule.id = result.getString(0).toInt()
+                schedule.discipline = result.getString(1).toString()
+                schedule.class_day = result.getString(2).toString()
+                schedule.start_at = result.getString(3).toString()
+                schedule.end_at = result.getString(4).toString()
+                schedule.student_id = result.getString(5).toInt()
+                list.add(schedule)
+            }while (result.moveToNext())
+        }
         result.close()
         db.close()
-        return schedule
+        return list
     }
 
 //    fun getUser(user : User){
