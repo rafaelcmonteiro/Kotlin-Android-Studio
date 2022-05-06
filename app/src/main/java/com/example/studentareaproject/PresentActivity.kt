@@ -16,8 +16,10 @@ class PresentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_present)
 
-        val locationComparison = loadData()
-        // Toast.makeText(this, "$locationComparison", Toast.LENGTH_SHORT).show()
+        val locationComparison = loadData("sameLocation")
+        val localization = loadData("localization")
+
+        Toast.makeText(this, "$localization", Toast.LENGTH_SHORT).show()
 
         val week = Calendar.getInstance(TimeZone.getTimeZone("GMT-3")).get(Calendar.DAY_OF_WEEK)
 
@@ -28,22 +30,24 @@ class PresentActivity : AppCompatActivity() {
 
         for (i in 0 until data.size){
             // o primeiro if é se a localização estiver correta.
-            if (isPresent && locationComparison) {
+            if (isPresent && (locationComparison).toBoolean()) {
                 tvText.append(
                             "Descrição:" + " Você esta em horário de aula" + "\n" +
                             "Aula: " + data[i].discipline + "\n" +
                             "Horário de início: " + data[i].start_at + "\n" +
                             "Horário de Término: " + data[i].end_at + "\n" +
+                            "Localização: " + localization + "\n" +
                             "Status: " + "Presente"
                 )
                 break
                 // o segundo para caso a aula esteja correndo porém a localização não bete.
-            }else if(isPresent && !locationComparison){
+            }else if(isPresent && !(locationComparison).toBoolean()){
                 tvText.append(
                     "Descrição:" + " Você esta em horário de aula" + "\n" +
                             "Aula: " + data[i].discipline + "\n" +
                             "Horário de início: " + data[i].start_at + "\n" +
                             "Horário de Término: " + data[i].end_at + "\n" +
+                            "Localização: " + localization + "\n" +
                             "Status: " + "Ausente"
                 )
                 break
@@ -54,6 +58,7 @@ class PresentActivity : AppCompatActivity() {
                             "Aula: " + data[i].discipline + "\n" +
                             "Horário de início: " + data[i].start_at + "\n" +
                             "Horário de Término: " + data[i].end_at + "\n" +
+                            "Localização: " + localization + "\n" +
                             "Status: " + "Sem Status"
                 )
                 break
@@ -101,10 +106,9 @@ class PresentActivity : AppCompatActivity() {
         return LocalTime.of(timeIntHour, timeIntMin, timeIntSec)
     }
 
-    private fun loadData(): Boolean {
+    private fun loadData(whichData : String): String {
         val sharedPreferences: SharedPreferences =
             getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
-
-        return sharedPreferences.getBoolean("sameLocation", true)
+        return (sharedPreferences.getBoolean(whichData, true)).toString()
     }
 }

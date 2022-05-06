@@ -52,7 +52,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        val fullLocation = getLastLocation()
+        getLastLocation()
     }
 
     fun imPresent(view: View){
@@ -95,7 +95,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
     }
 
-    private fun getLastLocation(): Boolean {
+    private fun getLastLocation(){
         var locationLatitude : Double = 0.0
         var locationLongitude : Double = 0.0
         var booleanLatitudeLongitude : Boolean = true
@@ -121,10 +121,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     val editor : SharedPreferences.Editor = sharedPreferences.edit()
                     editor.apply{
                         putBoolean("sameLocation", booleanLatitudeLongitude)
+                        putString("localization", latitudeLongitude.toString())
                     }.apply()
                 }
         }
-        return booleanLatitudeLongitude
     }
 
     private fun placeMarkerOnMap(currentLatLong: LatLng) {
