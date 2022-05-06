@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.studentareaproject.databinding.ActivityMapsBinding
 import com.google.android.gms.location.FusedLocationProviderClient
+import java.time.LocalTime
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -33,7 +34,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
     }
 
     /**
