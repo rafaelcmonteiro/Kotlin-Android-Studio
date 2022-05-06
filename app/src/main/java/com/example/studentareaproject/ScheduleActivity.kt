@@ -17,11 +17,6 @@ class ScheduleActivity : AppCompatActivity() {
 
         val context = this
         var db = DataBaseHandler(context)
-        Toast.makeText(
-                this@ScheduleActivity,
-            week.toString(),
-                Toast.LENGTH_SHORT
-            ).show()
         var data = db.getSchedule(week)
         tvResult.text =""
         for (i in 0 until data.size){

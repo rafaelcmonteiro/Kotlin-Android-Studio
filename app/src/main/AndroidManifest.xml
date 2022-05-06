@@ -43,6 +43,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ScheduleActivity" />
+        <activity android:name=".PresentActivity" />
     </application>
 
 </manifest>
