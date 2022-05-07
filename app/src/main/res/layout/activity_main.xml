@@ -51,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/signin"
-        android:text="Sign in"
+        android:text="Entrar"
         android:textSize="20dp"
         android:backgroundTint="@color/black"
         android:layout_marginBottom="30dp"

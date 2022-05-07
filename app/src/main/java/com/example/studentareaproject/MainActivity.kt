@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
                     ) {
                         Toast.makeText(
                             this@MainActivity,
-                            "Bem Vindo $returnedValues",
+                            "Bem Vindo",
                             Toast.LENGTH_SHORT
                         ).show()
                         val intent = Intent(this, ScheduleActivity::class.java)

@@ -8,7 +8,6 @@ class Schedule {
     var end_at : String = ""
     var student_id : Int = 0
 
-
     constructor(discipline:String, class_day:String, start_at:String, end_at:String, student_id:Int){
         this.discipline = discipline
         this.class_day = class_day

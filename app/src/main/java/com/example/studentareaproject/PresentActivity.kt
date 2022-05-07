@@ -20,8 +20,6 @@ class PresentActivity : AppCompatActivity() {
         val localization = loadDataString("localization")
 
         val week = Calendar.getInstance(TimeZone.getTimeZone("GMT-3")).get(Calendar.DAY_OF_WEEK)
-        val isPM = Calendar.getInstance(TimeZone.getTimeZone("GMT-3")).get(Calendar.PM)
-        Toast.makeText(this, "$isPM", Toast.LENGTH_SHORT).show()
         val context = this
         val db = DataBaseHandler(context)
         val data = db.getSchedule(week)
@@ -30,6 +28,7 @@ class PresentActivity : AppCompatActivity() {
         for (i in 0 until data.size){
             // o primeiro if é se a localização estiver correta.
             if (isPresent && locationComparison) {
+                Toast.makeText(this, "Presença Confirmada.", Toast.LENGTH_SHORT).show()
                 tvText.append(
                             "Descrição:" + " Você esta em horário de aula" + "\n" +
                             "Aula: " + data[i].discipline + "\n" +
@@ -41,6 +40,7 @@ class PresentActivity : AppCompatActivity() {
                 break
                 // o segundo para caso a aula esteja correndo porém a localização não bete.
             }else if(isPresent && !locationComparison){
+                Toast.makeText(this, "Presença Rejeitada.", Toast.LENGTH_SHORT).show()
                 tvText.append(
                     "Descrição:" + " Você esta em horário de aula" + "\n" +
                             "Aula: " + data[i].discipline + "\n" +
@@ -52,6 +52,7 @@ class PresentActivity : AppCompatActivity() {
                 break
                 // para caso o aluno não esteja em horário de aula.
             }else if(!isPresent){
+                Toast.makeText(this, "Não foi possível confirmar presença.", Toast.LENGTH_SHORT).show()
                 tvText.append(
                     "Descrição:" + " Você não esta em horário de aula" + "\n" +
                             "Aula: " + data[i].discipline + "\n" +

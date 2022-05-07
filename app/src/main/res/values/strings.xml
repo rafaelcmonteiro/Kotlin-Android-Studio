@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Area do Aluno</string>
-    <string name="sign_up">Sign Up</string>
+    <string name="app_name">Área do Aluno</string>
+    <string name="sign_up">Bem Vindo</string>
     <string name="username">Username</string>
     <string name="title_activity_maps">Localização</string>
 </resources>

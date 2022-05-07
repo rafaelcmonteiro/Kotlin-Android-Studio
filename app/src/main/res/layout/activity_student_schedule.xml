@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Schedule"
+        android:text="Cronograma"
         android:textColor="@color/black"
         android:textSize="50sp"
         android:textStyle="bold"
@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/maps"
-        android:text="Confirmar Presença"
+        android:text="Checar Localidade"
         android:textSize="20dp"
         android:backgroundTint="@color/black"
         android:layout_marginBottom="30dp"
